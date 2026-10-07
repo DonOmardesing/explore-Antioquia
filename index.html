@@ -1,0 +1,233 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width,initial-scale=1,maximum-scale=1">
+<meta name="theme-color" content="#06080d">
+<title>Don Omar Rides</title>
+<style>
+*{box-sizing:border-box;margin:0;padding:0}
+html,body{min-height:100%;overflow-x:hidden}
+body{max-width:430px;margin:auto;background:linear-gradient(180deg,#06080d,#090e18 55%,#07090f);font-family:Segoe UI,Arial,sans-serif;color:#fff}
+button,input,select,textarea{font:inherit}
+.header{padding:22px 20px 16px;text-align:center;background:linear-gradient(180deg,#080a10,#0c1120);border-bottom:1px solid rgba(0,212,255,.13)}
+.logo-rule,.logo-diamond-rule,.logo-bottom-rule{display:flex;align-items:center;justify-content:center;gap:8px}
+.logo-rule-line{width:56px;height:1px;background:linear-gradient(to right,transparent,#00d4ff)}
+.logo-rule-dot{width:6px;height:6px;border-radius:50%;background:#00d4ff;box-shadow:0 0 10px #00d4ff}
+.logo-name{font-family:Georgia,serif;font-size:34px;font-weight:700;letter-spacing:8px;color:#00d4ff;text-shadow:0 0 20px rgba(0,212,255,.8);line-height:1;margin-top:6px}
+.logo-diamond-rule{margin:6px 0}.logo-diamond-line{width:34px;height:1px;background:#00d4ff;opacity:.55}.logo-diamond{width:5px;height:5px;background:#00d4ff;transform:rotate(45deg)}
+.logo-rides{font-family:Georgia,serif;font-size:13px;letter-spacing:11px;color:#80e5ff;margin-top:3px}
+.logo-tp{font-family:Georgia,serif;font-size:11px;letter-spacing:5px;color:#fff;padding:8px;cursor:pointer}
+.logo-bottom-line{width:62px;height:1px;background:linear-gradient(to right,transparent,#fff);opacity:.45}
+.lang-selector{display:flex;justify-content:center;gap:8px;margin-top:12px}
+.lang-btn{border:1px solid rgba(0,212,255,.25);background:rgba(0,212,255,.08);color:#888;padding:7px 15px;border-radius:20px;cursor:pointer}
+.lang-btn.active{background:#00d4ff;color:#000}
+.quick-row{display:grid;grid-template-columns:1fr 1fr;gap:9px;padding:13px}
+.quick-btn,.main-action,.service-btn{border:1px solid rgba(0,212,255,.22);border-radius:12px;background:linear-gradient(135deg,rgba(0,212,255,.1),rgba(0,212,255,.04));color:#fff;cursor:pointer}
+.quick-btn{padding:13px 10px;display:flex;justify-content:center;gap:8px}
+.quick-btn .label{color:#00d4ff;font-size:13px;letter-spacing:1px}
+.card{margin:11px 13px 15px;border:1px solid rgba(255,255,255,.07);border-radius:16px;overflow:hidden;background:linear-gradient(135deg,rgba(255,255,255,.03),rgba(255,255,255,.01))}
+.card-header{display:flex;align-items:center;gap:12px;padding:16px;cursor:pointer;background:linear-gradient(135deg,rgba(0,212,255,.08),transparent)}
+.card-title{font-size:16px;font-weight:700;color:#00d4ff;letter-spacing:1px}.card-sub{font-size:12px;margin-top:3px}.card-chev{margin-left:auto;transition:.25s}
+.card-body{display:none;padding:0 15px 16px}.card-body.open{display:block}
+.lbl{display:block;font-size:12px;color:#00d4ff;margin:10px 0 6px;letter-spacing:1px}
+.inp{width:100%;background:rgba(0,0,0,.35);border:1px solid rgba(255,255,255,.1);border-radius:9px;padding:11px 12px;color:#fff;outline:none}
+.inp:focus{border-color:#00d4ff;box-shadow:0 0 0 3px rgba(0,212,255,.12)}
+.two-col{display:grid;grid-template-columns:1fr 1fr;gap:10px}
+.btn-main{width:100%;border:0;border-radius:9px;padding:13px;margin-top:13px;background:linear-gradient(135deg,#00d4ff,#0099cc);color:#000;font-weight:700;cursor:pointer;box-shadow:0 0 15px rgba(0,212,255,.35)}
+.ok{display:none;background:rgba(26,219,122,.12);border:1px solid rgba(26,219,122,.35);color:#1adb7a;padding:11px;border-radius:9px;margin:10px 0;text-align:center;font-size:13px}
+.service-grid{padding:0 13px 5px;display:grid;gap:10px}
+.service-btn{text-align:left;padding:15px}
+.service-btn strong{display:block;color:#00d4ff;font-size:15px;margin-bottom:5px}.service-btn span{font-size:12px;color:#ddd}
+.rate{font-size:16px!important;color:#fff!important;margin-top:6px}
+.gallery,.reviews{padding:13px}.section-title{text-align:center;color:#00d4ff;letter-spacing:2px;font-size:13px;margin-bottom:12px}
+.gal-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:7px}.gal-item{width:100%;aspect-ratio:1;object-fit:cover;border-radius:7px;cursor:pointer}
+.review{background:rgba(255,255,255,.03);border:1px solid rgba(255,255,255,.06);border-radius:11px;padding:12px;margin-bottom:10px}.review b{color:#00d4ff;font-size:14px}.review p{font-size:13px;line-height:1.5;margin-top:5px}
+.contact-bar{position:sticky;bottom:0;z-index:50;display:grid;grid-template-columns:1fr 1fr 1.2fr;gap:6px;padding:8px;background:rgba(5,8,14,.96);border-top:1px solid rgba(0,212,255,.18);backdrop-filter:blur(10px)}
+.contact-bar a,.contact-bar button{border:1px solid rgba(0,212,255,.25);border-radius:8px;padding:10px 4px;text-align:center;text-decoration:none;font-size:11px;color:#00d4ff;background:rgba(0,212,255,.08);font-weight:700}
+.contact-bar button{background:#00d4ff;color:#000}
+.footer{text-align:center;padding:18px 12px 25px;border-top:1px solid rgba(0,212,255,.12);font-size:10px;color:#777}.footer strong{display:block;color:#00d4ff;font-size:12px;margin-bottom:4px}
+.overlay{position:fixed;inset:0;background:rgba(0,0,0,.94);z-index:1000;display:none;align-items:center;justify-content:center;padding:18px}.overlay img{max-width:100%;max-height:90%;object-fit:contain;border-radius:8px}
+.modal{position:fixed;inset:0;background:rgba(0,0,0,.86);z-index:1100;display:none;align-items:center;justify-content:center;padding:20px}.modal-box{width:100%;max-width:330px;background:#101722;border:1px solid rgba(0,212,255,.3);border-radius:15px;padding:23px}
+.admin{display:none;padding-bottom:30px}.admin-wrap{padding:13px}.admin-top{display:flex;justify-content:space-between;align-items:center;padding:11px;background:rgba(0,212,255,.08);border:1px solid rgba(0,212,255,.2);border-radius:10px}.admin-title{color:#00d4ff;font-weight:700}.btn-red{background:#ff4757;border:0;border-radius:7px;color:#fff;padding:7px 12px}.stats{display:grid;grid-template-columns:repeat(3,1fr);gap:8px;margin:12px 0}.stat{padding:12px;text-align:center;border:1px solid rgba(0,212,255,.2);border-radius:10px;background:rgba(0,212,255,.08)}.stat b{display:block;color:#00d4ff;font-size:22px}.tabs{display:flex;gap:5px;flex-wrap:wrap}.tab{flex:1;min-width:75px;padding:9px 5px;background:rgba(255,255,255,.04);color:#fff;border:1px solid rgba(255,255,255,.08);border-radius:7px;font-size:11px}.tab.active{color:#00d4ff;border-color:#00d4ff}.admin-item{margin-top:9px;padding:11px;border:1px solid rgba(255,255,255,.07);border-radius:10px;background:rgba(255,255,255,.03);font-size:12px}.admin-item b{color:#00d4ff}.status{display:inline-block;margin:6px 0;padding:3px 7px;border-radius:5px;font-size:10px;border:1px solid #ffaa00;color:#ffaa00}.small-btn{border:1px solid rgba(0,212,255,.3);background:rgba(0,212,255,.1);color:#00d4ff;border-radius:6px;padding:5px 8px;font-size:10px;margin:4px 3px 0 0}.danger{border-color:#ff4757;color:#ff4757;background:rgba(255,71,87,.1)}
+</style>
+</head>
+<body>
+
+<div id="imgModal" class="overlay" onclick="closeImg()"><img id="bigImg" alt="Galería"></div>
+
+<div id="passModal" class="modal">
+  <div class="modal-box">
+    <div class="section-title">PANEL ADMINISTRADOR</div>
+    <label class="lbl">Contraseña</label>
+    <input class="inp" type="password" id="pass" maxlength="20" onkeydown="if(event.key==='Enter')login()">
+    <div id="passError" style="display:none;color:#ff5555;font-size:12px;margin-top:7px">Contraseña incorrecta</div>
+    <button class="btn-main" onclick="login()">Entrar</button>
+    <button class="btn-main" style="background:transparent;color:#fff;border:1px solid #555;box-shadow:none" onclick="closePass()">Cancelar</button>
+  </div>
+</div>
+
+<div id="home">
+<header class="header">
+  <div class="logo-rule"><div class="logo-rule-line"></div><div class="logo-rule-dot"></div><div class="logo-rule-line"></div></div>
+  <div class="logo-name">DON OMAR</div>
+  <div class="logo-diamond-rule"><div class="logo-diamond-line"></div><div class="logo-diamond"></div><div class="logo-diamond-line"></div></div>
+  <div class="logo-rides">RIDES</div>
+  <div class="logo-bottom-rule"><div class="logo-bottom-line"></div><div class="logo-tp" id="adminTrigger">TRANSPORTE PRIVADO</div><div class="logo-bottom-line"></div></div>
+  <div class="lang-selector"><button class="lang-btn active" onclick="setLang('es',this)">Español</button><button class="lang-btn" onclick="setLang('en',this)">English</button></div>
+</header>
+
+<div class="quick-row">
+  <button class="quick-btn" onclick="toggleSection('gallery')"><span>📸</span><span class="label" data-i18n="gallery">Galería</span></button>
+  <button class="quick-btn" onclick="toggleSection('reviews')"><span>⭐</span><span class="label" data-i18n="reviews">Reseñas</span></button>
+</div>
+
+<div class="service-grid">
+  <button class="service-btn" onclick="openBooking('local')">
+    <strong>🚖 Transporte privado en Medellín</strong>
+    <span>Servicio privado por hora para tus desplazamientos.</span>
+    <span class="rate"><b>$35.000 COP / hora</b></span>
+  </button>
+  <button class="service-btn" onclick="openBooking('airport')">
+    <strong>✈️ Transporte aeropuerto</strong>
+    <span>Traslados privados entre Medellín y el Aeropuerto José María Córdova.</span>
+  </button>
+</div>
+
+<div class="card" id="bookingCard">
+  <div class="card-header" onclick="toggleBooking()">
+    <span style="font-size:25px">📅</span><div style="flex:1"><div class="card-title" data-i18n="booking">Nueva Reserva</div><div class="card-sub" data-i18n="schedule">Agenda tu servicio</div></div><span id="bookingChev">▼</span>
+  </div>
+  <div class="card-body" id="bookingBody">
+    <div class="ok" id="bookingOk"></div>
+    <label class="lbl">Nombre completo *</label><input class="inp" id="name" maxlength="100">
+    <label class="lbl">Teléfono *</label><input class="inp" id="phone" inputmode="tel" maxlength="20">
+    <label class="lbl">Servicio *</label>
+    <select class="inp" id="service" onchange="serviceChanged()">
+      <option value="Transporte privado en Medellín">🚖 Transporte privado en Medellín — $35.000/hora</option>
+      <option value="Transporte aeropuerto">✈️ Transporte aeropuerto</option>
+    </select>
+    <div id="hoursWrap">
+      <label class="lbl">Duración</label>
+      <select class="inp" id="hours" onchange="updateTotal()">
+        <option value="1">1 hora — $35.000</option><option value="2">2 horas — $70.000</option><option value="3">3 horas — $105.000</option><option value="4">4 horas — $140.000</option><option value="5">5 horas — $175.000</option><option value="6">6 horas — $210.000</option><option value="custom">Duración personalizada — consultar</option>
+      </select>
+      <div id="total" style="color:#1adb7a;font-size:13px;margin-top:7px">Total estimado: $35.000 COP</div>
+    </div>
+    <label class="lbl">Lugar de recogida *</label><input class="inp" id="pickup" maxlength="180">
+    <label class="lbl">Destino *</label><input class="inp" id="destination" maxlength="180">
+    <div class="two-col">
+      <div><label class="lbl">Fecha *</label><input class="inp" type="date" id="date"></div>
+      <div><label class="lbl">Hora *</label><select class="inp" id="time"></select></div>
+    </div>
+    <div class="two-col">
+      <div><label class="lbl">Pasajeros</label><select class="inp" id="passengers"><option>1</option><option>2</option><option>3</option></select></div>
+      <div><label class="lbl">Precio</label><input class="inp" id="price" readonly value="$35.000 COP"></div>
+    </div>
+    <label class="lbl">Observaciones</label><textarea class="inp" id="notes" rows="3" maxlength="300" placeholder="Equipaje, instrucciones especiales, etc."></textarea>
+    <button class="btn-main" onclick="createBooking()">CONFIRMAR RESERVA POR WHATSAPP</button>
+  </div>
+</div>
+
+<div id="gallerySection" style="display:none" class="gallery">
+  <div class="section-title">FOTOGRAFÍAS DE NUESTROS SERVICIOS</div>
+  <div class="gal-grid" id="galleryGrid"></div>
+</div>
+
+<div id="reviewsSection" style="display:none" class="reviews">
+  <div class="section-title">VALORAMOS TU OPINIÓN</div>
+  <div id="reviewList"></div>
+  <label class="lbl">Tu nombre</label><input class="inp" id="reviewName">
+  <label class="lbl">Tu reseña</label><textarea class="inp" id="reviewText" rows="3" maxlength="300"></textarea>
+  <button class="btn-main" onclick="sendReview()">ENVIAR RESEÑA</button>
+</div>
+
+<footer class="footer"><strong>Don Omar Rides</strong>Transporte privado · Medellín<br>Design OMARDEJMEJIA 2026<br>Todos los derechos reservados</footer>
+
+<div class="contact-bar">
+  <a href="tel:+573008150549">📞 LLAMAR</a>
+  <a href="https://wa.me/573008150549" target="_blank">💬 WHATSAPP</a>
+  <button onclick="openBooking()">🚖 RESERVAR</button>
+</div>
+</div>
+
+<div id="admin" class="admin">
+  <header class="header"><div class="logo-name" style="font-size:24px">ADMIN</div></header>
+  <div class="admin-wrap">
+    <div class="admin-top"><div class="admin-title">Panel de Control</div><button class="btn-red" onclick="logout()">Salir</button></div>
+    <div class="stats"><div class="stat"><b id="statRes">0</b>Reservas</div><div class="stat"><b id="statCli">0</b>Clientes</div><div class="stat"><b id="statRev">0</b>Reseñas</div></div>
+    <div class="tabs"><button class="tab active" onclick="adminTab('reservas',this)">Reservas</button><button class="tab" onclick="adminTab('clientes',this)">Clientes</button><button class="tab" onclick="adminTab('reseñas',this)">Reseñas</button></div>
+    <div id="adminContent"></div>
+  </div>
+</div>
+
+<script>
+const WA="573008150549";
+const PASS="1975";
+const TIMES=["05:00","06:00","07:00","08:00","09:00","10:00","11:00","12:00","13:00","14:00","15:00","16:00","17:00","18:00","19:00","20:00"];
+const DEFAULT_REVIEWS=[
+ {nombre:"Carlos M., México 🇲🇽",texto:"Excelente servicio. El carro muy limpio y cómodo y Don Omar fue muy puntual. 100% recomendado."},
+ {nombre:"Sarah J., USA 🇺🇸",texto:"Amazing service! Friendly, professional and very reliable. The car was spotless."},
+ {nombre:"Ana P., Colombia 🇨🇴",texto:"Excelente servicio, muy puntual y amable. Totalmente recomendado."}
+];
+const GALLERY=[
+"https://images.unsplash.com/photo-1544620347-c4fd4a3d5957?w=500",
+"https://images.unsplash.com/photo-1570125909232-eb263c188f7e?w=500",
+"https://images.unsplash.com/photo-1503376780353-7e6692767b70?w=500",
+"https://images.unsplash.com/photo-1558981806-ec527fa84c39?w=500",
+"https://images.unsplash.com/photo-1596436889106-be35e843f974?w=500",
+"https://images.unsplash.com/photo-1583531352515-8884af319dc1?w=500"
+];
+let bookings=JSON.parse(localStorage.getItem("dor_rv")||"[]");
+let clients=JSON.parse(localStorage.getItem("dor_cl")||"[]");
+let reviews=JSON.parse(localStorage.getItem("dor_re")||JSON.stringify(DEFAULT_REVIEWS));
+let currentLang="es";
+
+function esc(v){const d=document.createElement("div");d.textContent=v??"";return d.innerHTML}
+function save(){localStorage.setItem("dor_rv",JSON.stringify(bookings));localStorage.setItem("dor_cl",JSON.stringify(clients));localStorage.setItem("dor_re",JSON.stringify(reviews))}
+function fillTimes(){const s=document.getElementById("time");TIMES.forEach(t=>{const o=document.createElement("option");o.value=t;o.textContent=t;s.appendChild(o)})}
+function minDate(){const d=new Date();d.setMinutes(d.getMinutes()-d.getTimezoneOffset());document.getElementById("date").min=d.toISOString().slice(0,10)}
+function toggleBooking(){const b=document.getElementById("bookingBody"),c=document.getElementById("bookingChev");b.classList.toggle("open");c.style.transform=b.classList.contains("open")?"rotate(180deg)":""}
+function openBooking(type){const b=document.getElementById("bookingBody");if(!b.classList.contains("open"))toggleBooking();if(type==="airport"){document.getElementById("service").value="Transporte aeropuerto";serviceChanged()}else if(type==="local"){document.getElementById("service").value="Transporte privado en Medellín";serviceChanged()}document.getElementById("bookingCard").scrollIntoView({behavior:"smooth",block:"start"})}
+function serviceChanged(){const airport=document.getElementById("service").value==="Transporte aeropuerto";document.getElementById("hoursWrap").style.display=airport?"none":"block";document.getElementById("price").value=airport?"Consultar":"$35.000 COP";if(airport){document.getElementById("pickup").placeholder="Ej. Aeropuerto José María Córdova";document.getElementById("destination").placeholder="Ej. Medellín"}else{document.getElementById("pickup").placeholder="Dirección o lugar de recogida";document.getElementById("destination").placeholder="Destino"}}
+function updateTotal(){const h=document.getElementById("hours").value;if(h==="custom"){document.getElementById("total").textContent="Total: consultar";document.getElementById("price").value="Consultar";return}const n=Number(h)*35000;document.getElementById("total").textContent="Total estimado: $"+n.toLocaleString("es-CO")+" COP";document.getElementById("price").value="$"+n.toLocaleString("es-CO")+" COP"}
+function createBooking(){
+ const name=document.getElementById("name").value.trim(),phone=document.getElementById("phone").value.trim(),service=document.getElementById("service").value,pickup=document.getElementById("pickup").value.trim(),dest=document.getElementById("destination").value.trim(),date=document.getElementById("date").value,time=document.getElementById("time").value,passengers=document.getElementById("passengers").value,notes=document.getElementById("notes").value.trim(),hours=document.getElementById("hours").value,price=document.getElementById("price").value;
+ if(!name||!phone||!pickup||!dest||!date||!time){alert("Completa todos los campos obligatorios.");return}
+ if(phone.replace(/\D/g,"").length<7){alert("Ingresa un teléfono válido.");return}
+ if(date<document.getElementById("date").min){alert("La fecha no puede ser anterior a hoy.");return}
+ const id="DOR-"+Date.now().toString().slice(-6);
+ const b={id,nombre:name,numero:phone,servicio:service,recogida:pickup,destino:dest,fecha:date,horario:time,pasajeros:Number(passengers),horas:hours,precio:price,observaciones:notes,estado:"Pendiente",creado:new Date().toISOString()};
+ bookings.push(b);
+ let c=clients.find(x=>x.numero===phone);if(c)c.viajes=(c.viajes||0)+1;else clients.push({nombre:name,numero:phone,viajes:1});save();
+ const msg=`🚖 *DON OMAR RIDES*%0A*NUEVA SOLICITUD DE RESERVA*%0A%0A🔖 *Reserva:* ${id}%0A👤 *Cliente:* ${name}%0A📞 *Teléfono:* ${phone}%0A%0A🚗 *Servicio:* ${service}%0A📍 *Recogida:* ${pickup}%0A🏁 *Destino:* ${dest}%0A📅 *Fecha:* ${date}%0A⏰ *Hora:* ${time}%0A👥 *Pasajeros:* ${passengers}%0A⏱ *Duración:* ${service.includes("Medellín")?hours+" hora(s)": "No aplica"}%0A💰 *Precio:* ${price}%0A📝 *Observaciones:* ${notes||"Ninguna"}%0A%0A🟡 *Estado:* PENDIENTE`;
+ window.open("https://wa.me/"+WA+"?text="+msg,"_blank");
+ const ok=document.getElementById("bookingOk");ok.innerHTML="✅ Reserva <strong>"+id+"</strong> creada. Te contactaremos por WhatsApp.";ok.style.display="block";
+ ["name","phone","pickup","destination","date","notes"].forEach(x=>document.getElementById(x).value="");document.getElementById("passengers").value="1";document.getElementById("service").value="Transporte privado en Medellín";serviceChanged();updateTotal();
+}
+function toggleSection(s){["gallery","reviews"].forEach(x=>document.getElementById(x+"Section").style.display=x===s&&document.getElementById(x+"Section").style.display!=="block"?"block":"none")}
+function renderGallery(){document.getElementById("galleryGrid").innerHTML=GALLERY.map(x=>`<img class="gal-item" src="${esc(x)}" onclick="openImg('${esc(x)}')">`).join("")}
+function openImg(x){document.getElementById("bigImg").src=x;document.getElementById("imgModal").style.display="flex"}function closeImg(){document.getElementById("imgModal").style.display="none"}
+function renderReviews(){document.getElementById("reviewList").innerHTML=reviews.map(r=>`<div class="review"><b>${esc(r.nombre)}</b><p>${esc(r.texto)}</p></div>`).join("")}
+function sendReview(){const n=document.getElementById("reviewName").value.trim(),t=document.getElementById("reviewText").value.trim();if(!n||!t){alert("Completa los campos.");return}reviews.push({nombre:n,texto:t,pendiente:true});save();renderReviews();document.getElementById("reviewName").value="";document.getElementById("reviewText").value="";alert("Gracias. Tu reseña quedó registrada.");}
+function setLang(lang,btn){currentLang=lang;document.querySelectorAll(".lang-btn").forEach(x=>x.classList.remove("active"));btn.classList.add("active");document.querySelectorAll("[data-i18n]").forEach(x=>{const k=x.dataset.i18n;x.textContent=lang==="en"?({gallery:"Gallery",reviews:"Reviews",booking:"New Booking",schedule:"Schedule your service"}[k]||x.textContent):({gallery:"Galería",reviews:"Reseñas",booking:"Nueva Reserva",schedule:"Agenda tu servicio"}[k]||x.textContent)})}
+function openPass(){document.getElementById("passModal").style.display="flex";document.getElementById("pass").focus()}function closePass(){document.getElementById("passModal").style.display="none"}
+function login(){if(document.getElementById("pass").value===PASS){closePass();document.getElementById("home").style.display="none";document.getElementById("admin").style.display="block";renderAdmin("reservas")}else document.getElementById("passError").style.display="block"}
+function logout(){document.getElementById("admin").style.display="none";document.getElementById("home").style.display="block"}
+function adminTab(t,b){document.querySelectorAll(".tab").forEach(x=>x.classList.remove("active"));b.classList.add("active");renderAdmin(t)}
+function renderAdmin(t){
+ document.getElementById("statRes").textContent=bookings.length;document.getElementById("statCli").textContent=clients.length;document.getElementById("statRev").textContent=reviews.length;
+ const c=document.getElementById("adminContent");
+ if(t==="reservas"){c.innerHTML=bookings.length?bookings.map((b,i)=>`<div class="admin-item"><b>${esc(b.nombre)}</b><br>🔖 ${esc(b.id)}<br>🚗 ${esc(b.servicio)}<br>📍 ${esc(b.recogida)} → ${esc(b.destino)}<br>📅 ${esc(b.fecha)} · ${esc(b.horario)}<br>👥 ${b.pasajeros} · 💰 ${esc(b.precio)}<br>📞 ${esc(b.numero)}${b.observaciones?"<br>📝 "+esc(b.observaciones):""}<br><span class="status">${esc(b.estado)}</span><br><button class="small-btn" onclick="stateBooking(${i},'Confirmada')">Confirmar</button><button class="small-btn" onclick="stateBooking(${i},'Realizada')">Realizada</button><button class="small-btn danger" onclick="stateBooking(${i},'Cancelada')">Cancelar</button><button class="small-btn danger" onclick="deleteBooking(${i})">Eliminar</button></div>`).join(""):"<div class='admin-item'>No hay reservas.</div>"}
+ else if(t==="clientes"){c.innerHTML=clients.length?clients.map(x=>`<div class="admin-item"><b>${esc(x.nombre)}</b><br>📞 ${esc(x.numero)}<br>🚗 ${x.viajes||0} viaje(s)</div>`).join(""):"<div class='admin-item'>No hay clientes.</div>"}
+ else {c.innerHTML=reviews.length?reviews.map((r,i)=>`<div class="admin-item"><b>${esc(r.nombre)}</b><br>${esc(r.texto)}<br><button class="small-btn danger" onclick="deleteReview(${i})">Eliminar</button></div>`).join(""):"<div class='admin-item'>No hay reseñas.</div>"}
+}
+function stateBooking(i,s){bookings[i].estado=s;save();renderAdmin("reservas")}
+function deleteBooking(i){if(confirm("¿Eliminar esta reserva?")){bookings.splice(i,1);save();renderAdmin("reservas")}}
+function deleteReview(i){if(confirm("¿Eliminar esta reseña?")){reviews.splice(i,1);save();renderAdmin("reseñas")}}
+document.getElementById("adminTrigger").addEventListener("dblclick",openPass);
+let taps=0,timer;document.getElementById("adminTrigger").addEventListener("click",()=>{taps++;clearTimeout(timer);timer=setTimeout(()=>taps=0,2200);if(taps>=3){taps=0;openPass()}});
+fillTimes();minDate();renderGallery();renderReviews();serviceChanged();updateTotal();
+</script>
+</body>
+</html>
