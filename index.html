@@ -4,6 +4,13 @@
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width,initial-scale=1,maximum-scale=1">
 <meta name="theme-color" content="#06080d">
+<meta name="apple-mobile-web-app-capable" content="yes">
+<meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+<meta name="apple-mobile-web-app-title" content="GO/PLUS">
+<meta name="mobile-web-app-capable" content="yes">
+<link rel="manifest" href="./manifest.webmanifest">
+<link rel="icon" type="image/png" sizes="192x192" href="./icons/icon-192.png">
+<link rel="apple-touch-icon" href="./icons/icon-192.png">
 <title>GO/PLUS — Transporte Privado</title>
 <style>
 *{box-sizing:border-box;margin:0;padding:0}
@@ -210,6 +217,12 @@ body{font-size:16px!important}
 .footer-trust b{font-size:10px!important;letter-spacing:.7px!important}
 .footer-trust small{font-size:9px!important;line-height:1.25!important}
 @media(max-width:350px){.contact-bar{gap:9px!important}.contact-bar a,.contact-bar button{width:46%!important;font-size:12px!important}.footer-trust b{font-size:9px!important}}
+
+.install-wrap{padding:8px 14px 12px;text-align:center}
+.install-app-btn{display:inline-flex;align-items:center;justify-content:center;gap:8px;width:min(100%,360px);min-height:44px;padding:10px 16px;border:1.5px solid #087bff;border-radius:999px;background:linear-gradient(180deg,#073c9d,#031b4c);color:#fff;font-weight:800;font-size:13px;letter-spacing:.5px;box-shadow:0 0 14px rgba(0,87,255,.28);cursor:pointer}
+.install-app-btn:active{transform:scale(.98)}
+#installHint{display:block;margin-top:5px;color:#8d9bad;font-size:10px}
+@media(display-mode: standalone){.install-wrap{display:none}}
 </style>
 
 <style id="neon-dark-blue-40plus">
@@ -275,6 +288,7 @@ html,body{background:#000!important;color:#fff!important}
 <button class="lang-btn active" onclick="setLang('es',this)">Español</button>
 <button class="lang-btn" onclick="setLang('en',this)">English</button>
 </div>
+<div class="install-wrap"><button id="installAppBtn" class="install-app-btn" type="button">＋ GUARDAR GO/PLUS EN MI TELÉFONO</button><small id="installHint">Acceso directo desde tu pantalla de inicio</small></div>
 
 <button id="backMenuBtn" onclick="backToMenu()" aria-label="Volver al menú">← VOLVER AL MENÚ</button>
 
@@ -617,6 +631,37 @@ document.getElementById("date").addEventListener("change",refreshBlockedTimes);
 document.getElementById("time").addEventListener("focus",refreshBlockedTimes);
 
 const savedLang=localStorage.getItem("dor_lang");if(savedLang==="en")setLang("en",document.querySelectorAll(".lang-btn")[1]);
+</script>
+
+<script>
+// GO/PLUS: instalación en pantalla de inicio y caché básica para futuras visitas.
+let goPlusInstallPrompt=null;
+const goPlusInstallBtn=document.getElementById('installAppBtn');
+const goPlusInstallHint=document.getElementById('installHint');
+function goPlusIsIOS(){return /iphone|ipad|ipod/i.test(navigator.userAgent)&&!window.MSStream}
+function goPlusSetInstallText(){
+ const en=document.documentElement.lang==='en';
+ if(goPlusInstallBtn)goPlusInstallBtn.textContent=en?'＋ SAVE GO/PLUS TO MY PHONE':'＋ GUARDAR GO/PLUS EN MI TELÉFONO';
+ if(goPlusInstallHint)goPlusInstallHint.textContent=en?'Open GO/PLUS directly from your home screen':'Acceso directo desde tu pantalla de inicio';
+}
+goPlusSetInstallText();
+document.querySelectorAll('.lang-btn').forEach(btn=>btn.addEventListener('click',()=>setTimeout(goPlusSetInstallText,0)));
+
+window.addEventListener('beforeinstallprompt',e=>{e.preventDefault();goPlusInstallPrompt=e; if(goPlusInstallBtn)goPlusInstallBtn.style.display='inline-flex'});
+window.addEventListener('appinstalled',()=>{goPlusInstallPrompt=null;if(goPlusInstallBtn)goPlusInstallBtn.style.display='none'});
+if(window.matchMedia('(display-mode: standalone)').matches||window.navigator.standalone){if(goPlusInstallBtn)goPlusInstallBtn.style.display='none'}
+if(goPlusInstallBtn){goPlusInstallBtn.addEventListener('click',async()=>{
+ if(goPlusInstallPrompt){goPlusInstallPrompt.prompt();await goPlusInstallPrompt.userChoice;goPlusInstallPrompt=null;return}
+ const en=document.documentElement.lang==='en';
+ if(goPlusIsIOS()){
+  alert(en?'To save GO/PLUS: tap the Share button in Safari, then choose “Add to Home Screen”, and tap Add.':'Para guardar GO/PLUS: toca Compartir en Safari, elige “Agregar a pantalla de inicio” y pulsa Agregar.');
+ }else{
+  alert(en?'Use your browser menu and choose “Install app” or “Add to Home screen”.':'Abre el menú de tu navegador y selecciona “Instalar aplicación” o “Agregar a pantalla de inicio”.');
+ }
+ });}
+if('serviceWorker' in navigator && location.protocol.startsWith('http')){
+ window.addEventListener('load',()=>navigator.serviceWorker.register('./sw.js').catch(err=>console.warn('No se pudo activar el modo de acceso guardado:',err)));
+}
 </script>
 </body>
 </html>
